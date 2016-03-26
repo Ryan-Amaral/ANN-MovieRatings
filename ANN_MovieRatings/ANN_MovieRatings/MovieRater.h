@@ -21,10 +21,11 @@ public:
 	MovieRater(const int netLayers, const int* netTopology, const bool isBasic);
 	~MovieRater();
 	NeuralNetwork* getNeuralNetwork() const;
-	double rateMovie(const Movie& movie) const;
+	double rateMovie(const Movie& movie);
 
-	const int BasicCriteriaAmount = 8; // the amount of criteria used if basic
-	const int ComplexCriteriaAmount = 25; // the amount of criteria used if not basic
+	const int BASIC_CRITERIA_AMOUNT = 8; // the amount of criteria used if basic
+	const int COMPLEX_CRITERIA_AMOUNT = 25; // the amount of criteria used if not basic
+	double Score;
 };
 
 #endif

@@ -13,13 +13,14 @@
 class GeneticAlgorithm
 {
 private:
-	MovieRater** _population; // the organisms in the population
+	double _mutationProb; // how likely a gene is to mutate and recombonation
+	double _learningRate; // how quickly learning will happen (higher is not always better)
 public:
-	GeneticAlgorithm();
+	GeneticAlgorithm(const int mutationProb, const int learningRate);
 	~GeneticAlgorithm();
-	void sortOrganisms(MovieRater** organisms, const int length);
-
-	int PopulationSize; // the size of the population
+	void sortOrganismsByScore(MovieRater** organisms, const int length) const;
+	double sumScores(const MovieRater** organisms, const int length) const;
+	void recombineGenes(const MovieRater** organisms, const int length, const double totalScore, double* outGenes) const;
 };
 
 #endif

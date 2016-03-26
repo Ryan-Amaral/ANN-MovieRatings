@@ -16,13 +16,15 @@ MovieRater::MovieRater(const int netLayers, const int* netTopology, const bool i
 	// use less criteria
 	if (_isBasic)
 	{
-		_movieCriteria = new double[BasicCriteriaAmount];
+		_movieCriteria = new double[BASIC_CRITERIA_AMOUNT];
 	}
 	// use more
 	else
 	{
-		_movieCriteria = new double[ComplexCriteriaAmount];
+		_movieCriteria = new double[COMPLEX_CRITERIA_AMOUNT];
 	}
+
+	Score = 0;
 }
 
 /// Deconstructs this MovieRater object.
@@ -43,7 +45,7 @@ NeuralNetwork* MovieRater::getNeuralNetwork() const
 /// Rates the passed in movie.
 /// Returns how close the rating is to the actual rating,
 /// 1 is best, 0 is worst.
-double MovieRater::rateMovie(const Movie& movie) const
+double MovieRater::rateMovie(const Movie& movie)
 {
 	if (_isBasic)
 	{
@@ -98,6 +100,8 @@ double MovieRater::rateMovie(const Movie& movie) const
 
 	double ratingGuess = _neuralNet->feedForward(_movieCriteria);
 	double ratingScore = 1 - (abs(ratingGuess - movie.Rating));
+
+	Score += ratingScore;
 
 	return ratingScore;
 }

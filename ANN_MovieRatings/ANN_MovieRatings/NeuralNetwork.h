@@ -26,6 +26,8 @@ public:
 	double feedForward(const double* values);
 	void copyWeights(double* toArr) const;
 	void setWeights(const double* newWeights);
+	
+	static int WeightLength;
 };
 
 #endif

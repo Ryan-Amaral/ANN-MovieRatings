@@ -18,6 +18,8 @@ NeuralNetwork::NeuralNetwork(const int layers, const int* topology)
 	_neuronValues = new double*[_layers];
 	_weights = new double**[_layers];
 
+	WeightLength = 0;
+
 	// create the size of each layer
 	for (int layer = 0; layer < layers; ++layer)
 	{
@@ -35,6 +37,7 @@ NeuralNetwork::NeuralNetwork(const int layers, const int* topology)
 			for (int startNeuron = 0; startNeuron < _layerSizes[layer - 1] + 1; ++startNeuron)
 			{
 				_weights[layer - 1][startNeuron] = new double[_layerSizes[layer]]; // end nodes size of current layer
+				WeightLength += _layerSizes[layer];
 			}
 			
 		}
