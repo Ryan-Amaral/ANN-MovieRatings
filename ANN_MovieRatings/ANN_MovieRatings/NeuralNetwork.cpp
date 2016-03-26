@@ -91,10 +91,53 @@ double NeuralNetwork::feedForward(const double* values)
 		_neuronValues[0][neuron] = values[neuron];
 	}
 
+	// pass values through all layers
+	for (int layer = 0; layer < _layers - 1; ++layer)
+	{
+		// set neurons in next layer to 0
+		for (int nextNeuron = 0; nextNeuron < _layerSizes[layer + 1]; ++nextNeuron)
+		{
+			_neuronValues[layer + 1][nextNeuron] = 0;
+		}
+
+		// each neuron passes values to next neurons, multiplied by weights
+		for (int neuron = 0; neuron < _layerSizes[layer] + 1; ++neuron)
+		{
+			if (neuron < _layerSizes[layer])
+			{
+				// each neuron in the next layer
+				for (int nextNeuron = 0; nextNeuron < _layerSizes[layer + 1]; ++nextNeuron)
+				{
+					_neuronValues[layer + 1][nextNeuron] +=
+						_neuronValues[layer][neuron] * _weights[layer][neuron][nextNeuron];
+				}
+			}
+			// add the extra bias weight to next neurons
+			else
+			{
+				// each neuron in the next layer
+				for (int nextNeuron = 0; nextNeuron < _layerSizes[layer + 1]; ++nextNeuron)
+				{
+					_neuronValues[layer + 1][nextNeuron] +=
+						_weights[layer][neuron][nextNeuron];
+				}
+			}
+		}
+
+		// apply activation function to all neurons in next layer
+		for (int neuron = 0; neuron < _layerSizes[layer + 1]; ++neuron)
+		{
+			_neuronValues[layer + 1][neuron] = activationFunction(_neuronValues[layer + 1][neuron]);
+		}
+	}
+
+	// return final layer neuron (should only by one)
+	return _neuronValues[_layers - 1][0];
 }
 
 
 /// Takes an input of any value and returs it between 0 and 1.
+/// Sigmoid activation function: https://en.wikipedia.org/wiki/Sigmoid_function
 double NeuralNetwork::activationFunction(double input)
 {
 	return (1 / (1 + (powf(EulerConstant, -input))));
