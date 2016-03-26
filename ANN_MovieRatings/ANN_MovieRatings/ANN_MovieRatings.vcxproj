@@ -64,6 +64,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GeneticAlgorithm.h" />
+    <ClInclude Include="MovieRater.h" />
+    <ClInclude Include="NeuralNetwork.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneticAlgorithm.cpp" />
+    <ClCompile Include="MovieRater.cpp" />
+    <ClCompile Include="NeuralNetwork.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
