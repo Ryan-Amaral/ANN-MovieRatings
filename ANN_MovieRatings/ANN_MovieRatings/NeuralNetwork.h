@@ -21,8 +21,7 @@ private:
 	float** _biases; // the bias for each neuron
 public:
 	NeuralNetwork(int layers, int* topology);
-	void feedForward(float* values);
-	float getValue() const;
+	float feedForward(float* values);
 };
 
 #endif
