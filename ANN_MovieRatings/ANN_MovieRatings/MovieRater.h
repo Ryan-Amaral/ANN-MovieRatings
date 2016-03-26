@@ -14,12 +14,17 @@
 class MovieRater
 {
 private:
-	NeuralNetwork* neuralNet;
+	NeuralNetwork* _neuralNet;
+	bool _isBasic; // if true, use less criteria for movie rating
+	double* _movieCriteria; // what the movies are rated based on
 public:
-	MovieRater();
+	MovieRater(const int netLayers, const int* netTopology, const bool isBasic);
 	~MovieRater();
 	NeuralNetwork* getNeuralNetwork() const;
-	double rateMovie(Movie& movie) const;
+	double rateMovie(const Movie& movie) const;
+
+	const int BasicCriteriaAmount = 8; // the amount of criteria used if basic
+	const int ComplexCriteriaAmount = 25; // the amount of criteria used if not basic
 };
 
 #endif

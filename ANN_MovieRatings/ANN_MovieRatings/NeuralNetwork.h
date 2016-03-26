@@ -13,6 +13,8 @@
 class NeuralNetwork
 {
 private:
+	double activationFunction(double input);
+
 	int _layers; // how many layers are in the net
 	int* _layerSizes; // the size of each layer
 	double** _neuronValues; // the neurons (values of), first index is layer, second is neuron in layer
@@ -24,7 +26,6 @@ public:
 	double feedForward(const double* values);
 	void copyWeights(double* toArr) const;
 	void setWeights(const double* newWeights);
-	double activationFunction(double input);
 };
 
 #endif

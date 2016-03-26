@@ -10,36 +10,6 @@
 /// Contains information about movies, and their rating.
 class Movie
 {
-private:
-	// non-discrete values
-	double _actionLevel;
-	double _comedyLevel;
-	double _familyLevel;
-	double _noirLevel;
-	double _horrorLevel;
-	double _romanceLevel;
-	double _warLevel;
-	double _adventureLevel;
-	double _crimeLevel;
-	double _dramaLevel;
-	double _fantasyLevel;
-	double _historicalLevel;
-	double _mysteryLevel;
-	double _scifiLevel;
-	double _thrillerLevel;
-	double _westernLevel;
-
-	// binary values
-	bool _isCartoon;
-	bool _isAnime;
-	bool _is3dAnimated;
-	bool _isMusical;
-	bool _isSport;
-	bool _isBiography;
-	bool _isDocumentary;
-	bool _isParody;
-
-	double _rating; // movies have ratings by me (may not be my actual rating)
 public:
 	Movie(double actionLevel,
 		double comedyLevel,
@@ -66,6 +36,38 @@ public:
 		bool isDocumentary,
 		bool isParody,
 		double rating);
+
+	// continuous values
+	double ActionLevel; // basic
+	double ComedyLevel; // basic
+	double FamilyLevel;
+	double NoirLevel;
+	double HorrorLevel; // basic
+	double RomanceLevel;
+	double WarLevel;
+	double AdventureLevel; // basic
+	double CrimeLevel;
+	double DramaLevel;
+	double FantasyLevel; // basic
+	double HistoricalLevel;
+	double MysteryLevel;
+	double ScifiLevel; // basic
+	double ThrillerLevel;
+	double WesternLevel;
+
+	// binary values
+	bool IsCartoon;
+	bool IsAnime;
+	bool Is3dAnimated;
+	bool IsAnimated; // basic
+	bool IsMusical;
+	bool IsSport;
+	bool IsBiography;
+	bool IsDocumentary; // basic
+	bool IsParody;
+
+	// rating from 0 to 1
+	double Rating; // movies have ratings by me (may not be my actual rating)
 };
 
 #endif
