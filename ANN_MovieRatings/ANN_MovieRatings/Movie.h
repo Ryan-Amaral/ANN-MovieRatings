@@ -7,11 +7,14 @@
 #ifndef _MOVIE_H
 #define _MOVIE_H
 
+#include <string>
+
 /// Contains information about movies, and their rating.
 class Movie
 {
 public:
-	Movie(double actionLevel,
+	Movie(std::string name,
+		double actionLevel,
 		double comedyLevel,
 		double familyLevel,
 		double noirLevel,
@@ -36,6 +39,8 @@ public:
 		bool isDocumentary,
 		bool isParody,
 		double rating);
+
+	std::string Name;
 
 	// continuous values
 	double ActionLevel; // basic
