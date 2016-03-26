@@ -135,6 +135,43 @@ double NeuralNetwork::feedForward(const double* values)
 	return _neuronValues[_layers - 1][0];
 }
 
+/// Copies the weights of this neural net to another array, in 1d.
+void NeuralNetwork::copyWeights(double* toArr) const
+{
+	int weightCounter = 0; // keeps track of the weight we are on
+
+	// loop through all weights to transfer to toArr
+	for (int layer = 0; layer < _layers - 1; ++layer)
+	{
+		for (int startNeuron = 0; startNeuron < _layerSizes[layer] + 1; ++startNeuron)
+		{
+			for (int endNeuron = 0; endNeuron < _layerSizes[layer + 1]; ++endNeuron)
+			{
+				toArr[weightCounter] = _weights[layer][startNeuron][endNeuron];
+				++weightCounter;
+			}
+		}
+	}
+}
+
+/// Sets the weights in this neural network to new values. From a 1d array.
+void NeuralNetwork::setWeights(const double* newWeights)
+{
+	int weightCounter = 0; // keeps track of the weight we are on
+
+	// loop through all weights to transfer to toArr
+	for (int layer = 0; layer < _layers - 1; ++layer)
+	{
+		for (int startNeuron = 0; startNeuron < _layerSizes[layer] + 1; ++startNeuron)
+		{
+			for (int endNeuron = 0; endNeuron < _layerSizes[layer + 1]; ++endNeuron)
+			{
+				_weights[layer][startNeuron][endNeuron] = newWeights[weightCounter];
+				++weightCounter;
+			}
+		}
+	}
+}
 
 /// Takes an input of any value and returs it between 0 and 1.
 /// Sigmoid activation function: https://en.wikipedia.org/wiki/Sigmoid_function
@@ -142,14 +179,3 @@ double NeuralNetwork::activationFunction(double input)
 {
 	return (1 / (1 + (powf(EulerConstant, -input))));
 }
-
-/* code for weights
-// connect each weight to each neuron in current layer
-for (int startNeuron = 0; startNeuron < _layerSizes[layer - 1] + 1; ++startNeuron)
-{
-	for (int endNeuron = 0; endNeuron < _layerSizes[layer]; ++endNeuron)
-	{
-		_weights[layer - 1][startNeuron][endNeuron] = 0;
-	}
-}
-*/
