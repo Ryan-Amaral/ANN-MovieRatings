@@ -12,22 +12,22 @@ class Movie
 {
 private:
 	// non-discrete values
-	float _actionLevel;
-	float _comedyLevel;
-	float _familyLevel;
-	float _noirLevel;
-	float _horrorLevel;
-	float _romanceLevel;
-	float _warLevel;
-	float _adventureLevel;
-	float _crimeLevel;
-	float _dramaLevel;
-	float _fantasyLevel;
-	float _historicalLevel;
-	float _mysteryLevel;
-	float _scifiLevel;
-	float _thrillerLevel;
-	float _westernLevel;
+	double _actionLevel;
+	double _comedyLevel;
+	double _familyLevel;
+	double _noirLevel;
+	double _horrorLevel;
+	double _romanceLevel;
+	double _warLevel;
+	double _adventureLevel;
+	double _crimeLevel;
+	double _dramaLevel;
+	double _fantasyLevel;
+	double _historicalLevel;
+	double _mysteryLevel;
+	double _scifiLevel;
+	double _thrillerLevel;
+	double _westernLevel;
 
 	// binary values
 	bool _isCartoon;
@@ -39,24 +39,24 @@ private:
 	bool _isDocumentary;
 	bool _isParody;
 
-	float _rating; // movies have ratings by me (may not be my actual rating)
+	double _rating; // movies have ratings by me (may not be my actual rating)
 public:
-	Movie(float actionLevel,
-		float comedyLevel,
-		float familyLevel,
-		float noirLevel,
-		float horrorLevel,
-		float romanceLevel,
-		float warLevel,
-		float adventureLevel,
-		float crimeLevel,
-		float dramaLevel,
-		float fantasyLevel,
-		float historicalLevel,
-		float mysteryLevel,
-		float scifiLevel,
-		float thrillerLevel,
-		float westernLevel,
+	Movie(double actionLevel,
+		double comedyLevel,
+		double familyLevel,
+		double noirLevel,
+		double horrorLevel,
+		double romanceLevel,
+		double warLevel,
+		double adventureLevel,
+		double crimeLevel,
+		double dramaLevel,
+		double fantasyLevel,
+		double historicalLevel,
+		double mysteryLevel,
+		double scifiLevel,
+		double thrillerLevel,
+		double westernLevel,
 		bool isCartoon,
 		bool isAnime,
 		bool is3dAnimated,
@@ -65,7 +65,7 @@ public:
 		bool isBiography,
 		bool isDocumentary,
 		bool isParody,
-		float rating);
+		double rating);
 };
 
 #endif

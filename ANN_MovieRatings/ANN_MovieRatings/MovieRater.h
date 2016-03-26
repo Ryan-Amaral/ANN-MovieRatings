@@ -19,7 +19,7 @@ public:
 	MovieRater();
 	~MovieRater();
 	NeuralNetwork* getNeuralNetwork() const;
-	float rateMovie(Movie& movie) const;
+	double rateMovie(Movie& movie) const;
 };
 
 #endif

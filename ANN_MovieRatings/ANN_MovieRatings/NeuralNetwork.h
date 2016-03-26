@@ -15,15 +15,16 @@ class NeuralNetwork
 private:
 	int _layers; // how many layers are in the net
 	int* _layerSizes; // the size of each layer
-	float** _neuronValues; // the neurons (values of), first index is layer, second is neuron in layer
-	float*** _weights; // the weights connecting neurons together
+	double** _neuronValues; // the neurons (values of), first index is layer, second is neuron in layer
+	double*** _weights; // the weights connecting neurons together
 					   // first index is layer, second is start neuron, third is end neuron
 public:
 	NeuralNetwork(const int layers, const int* topology);
 	~NeuralNetwork();
-	float feedForward(const float* values);
-	void copyWeights(float* toArr) const;
-	void setWeights(const float* newWeights);
+	double feedForward(const double* values);
+	void copyWeights(double* toArr) const;
+	void setWeights(const double* newWeights);
+	double activationFunction(double input);
 };
 
 #endif
