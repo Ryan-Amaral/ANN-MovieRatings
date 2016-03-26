@@ -18,10 +18,12 @@ private:
 	float** _neuronValues; // the neurons (values of), first index is layer, second is neuron in layer
 	float*** _weights; // the weights connecting neurons together
 					   // first index is layer, second is start neuron, third is end neuron
-	float** _biases; // the bias for each neuron
 public:
-	NeuralNetwork(int layers, int* topology);
-	float feedForward(float* values);
+	NeuralNetwork(const int layers, const int* topology);
+	~NeuralNetwork();
+	float feedForward(const float* values);
+	void copyWeights(float* toArr) const;
+	void setWeights(const float* newWeights);
 };
 
 #endif

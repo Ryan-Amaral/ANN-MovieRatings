@@ -8,16 +8,18 @@
 #define _MOVIE_RATER_H
 
 #include "NeuralNetwork.h"
+#include "Movie.h"
 
+/// The 'organism' that uses the NeuralNetwork. Tries to get as close as possible to actual rating on movies.
 class MovieRater
 {
 private:
 	NeuralNetwork* neuralNet;
 public:
 	MovieRater();
-	void setNeuralNetwork(NeuralNetwork* neuralNet);
-	NeuralNetwork* getNeuralNetwork();
-	
+	~MovieRater();
+	NeuralNetwork* getNeuralNetwork() const;
+	float rateMovie(Movie& movie) const;
 };
 
 #endif
