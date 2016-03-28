@@ -33,6 +33,7 @@ public:
 		bool isCartoon,
 		bool isAnime,
 		bool is3dAnimated,
+		bool isAnimated,
 		bool isMusical,
 		bool isSport,
 		bool isBiography,

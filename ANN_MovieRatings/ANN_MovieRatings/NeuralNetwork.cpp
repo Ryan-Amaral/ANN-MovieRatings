@@ -10,6 +10,8 @@
 // help from: http://stackoverflow.com/questions/18773343/how-to-calculate-euler-constant-or-euler-powered-in-c
 const double EulerConstant = std::exp(1.0);
 
+int NeuralNetwork::WeightLength = 0;
+
 /// Creates a neural network of specified topology.
 NeuralNetwork::NeuralNetwork(const int layers, const int* topology)
 {

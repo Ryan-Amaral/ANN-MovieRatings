@@ -25,7 +25,7 @@ public:
 
 	const int BASIC_CRITERIA_AMOUNT = 8; // the amount of criteria used if basic
 	const int COMPLEX_CRITERIA_AMOUNT = 25; // the amount of criteria used if not basic
-	double Score;
+	double ErrorRate;
 };
 
 #endif

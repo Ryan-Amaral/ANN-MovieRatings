@@ -26,7 +26,7 @@ void GeneticAlgorithm::sortOrganismsByScore(MovieRater** organisms, const int le
 	for (unsigned int i = 1; i < length; i++)
 	{
 		// if element is less than pivot, insert in far left
-		if (organisms[i]->Score < pivot->Score)
+		if (organisms[i]->ErrorRate < pivot->ErrorRate)
 		{
 			organisms[pivotIndex] = organisms[i];
 			organisms[i] = organisms[pivotIndex + 1];
@@ -53,7 +53,7 @@ double GeneticAlgorithm::sumScores(const MovieRater** organisms, const int lengt
 	double total = 0;
 	for (int i = 0; i < length; ++i)
 	{
-		total += organisms[i]->Score;
+		total += organisms[i]->ErrorRate;
 	}
 
 	return total;
@@ -65,13 +65,13 @@ void GeneticAlgorithm::recombineGenes(const MovieRater** organisms, const int le
 	double randy = ((float)rand() / (float)RAND_MAX) * totalScore;
 	double accumulation = 0;
 
-	double* genes1;
-	double* genes2;
+	double* genes1 = new double[NeuralNetwork::WeightLength];
+	double* genes2 = new double[NeuralNetwork::WeightLength];
 
 	// select first organism
 	for (int i = 0; i < length; ++i)
 	{
-		if (organisms[i]->Score + accumulation >= randy)
+		if ((totalScore - organisms[i]->ErrorRate + accumulation) <= randy)
 		{
 			// select this one
 			organisms[i]->getNeuralNetwork()->copyWeights(genes1);
@@ -88,7 +88,7 @@ void GeneticAlgorithm::recombineGenes(const MovieRater** organisms, const int le
 	// select second organism
 	for (int i = 0; i < length; ++i)
 	{
-		if (organisms[i]->Score + accumulation >= randy)
+		if ((totalScore - organisms[i]->ErrorRate + accumulation) <= randy)
 		{
 			// select this one
 			organisms[i]->getNeuralNetwork()->copyWeights(genes2);
