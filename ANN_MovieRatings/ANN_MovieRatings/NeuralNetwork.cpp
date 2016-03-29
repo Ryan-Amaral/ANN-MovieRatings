@@ -6,6 +6,8 @@
 
 #include "NeuralNetwork.h"
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 // help from: http://stackoverflow.com/questions/18773343/how-to-calculate-euler-constant-or-euler-powered-in-c
 const double EulerConstant = std::exp(1.0);
@@ -44,6 +46,8 @@ NeuralNetwork::NeuralNetwork(const int layers, const int* topology)
 			
 		}
 	}
+
+	setRandomWeights();
 }
 
 /// Deconstructs the neural network
@@ -84,6 +88,21 @@ NeuralNetwork::~NeuralNetwork()
 	if (_layerSizes != nullptr)
 	{
 		delete[] _layerSizes;
+	}
+}
+
+/// Sets all the weights in the neural net to random values between -1 and 1.
+void NeuralNetwork::setRandomWeights()
+{
+	for (int layer = 0; layer < _layers - 1; ++layer)
+	{
+		for (int startNeuron = 0; startNeuron < _layerSizes[layer] + 1; ++startNeuron)
+		{
+			for (int endNeuron = 0; endNeuron < _layerSizes[layer + 1]; ++endNeuron)
+			{
+				_weights[layer][startNeuron][endNeuron] = (((float)rand() / (float)RAND_MAX) * (float)2) - (float)1;
+			}
+		}
 	}
 }
 

@@ -19,8 +19,8 @@ public:
 	GeneticAlgorithm(const int mutationProb, const int learningRate);
 	~GeneticAlgorithm();
 	void sortOrganismsByScore(MovieRater** organisms, const int length) const;
-	double sumScores(const MovieRater** organisms, const int length) const;
-	void recombineGenes(const MovieRater** organisms, const int length, const double totalScore, double* outGenes) const;
+	double sumScores(MovieRater** organisms, const int length) const;
+	void recombineGenes(MovieRater** organisms, const int length, const double totalScore, double* outGenes) const;
 };
 
 #endif

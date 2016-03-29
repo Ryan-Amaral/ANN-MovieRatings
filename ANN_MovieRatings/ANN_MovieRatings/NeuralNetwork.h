@@ -14,6 +14,7 @@ class NeuralNetwork
 {
 private:
 	double activationFunction(double input);
+	void setRandomWeights();
 
 	int _layers; // how many layers are in the net
 	int* _layerSizes; // the size of each layer

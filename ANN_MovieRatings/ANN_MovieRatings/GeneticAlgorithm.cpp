@@ -6,6 +6,7 @@
 
 #include "GeneticAlgorithm.h"
 #include <cstdlib>
+#include <ctime>
 
 /// Creates a new object with mutation probability and learning rate.
 GeneticAlgorithm::GeneticAlgorithm(const int mutationProb, const int learningRate)
@@ -48,7 +49,7 @@ void GeneticAlgorithm::sortOrganismsByScore(MovieRater** organisms, const int le
 }
 
 /// Gets the sum of scores of all organisms to be used in roullete select later.
-double GeneticAlgorithm::sumScores(const MovieRater** organisms, const int length) const
+double GeneticAlgorithm::sumScores(MovieRater** organisms, const int length) const
 {
 	double total = 0;
 	for (int i = 0; i < length; ++i)
@@ -60,7 +61,7 @@ double GeneticAlgorithm::sumScores(const MovieRater** organisms, const int lengt
 }
 
 /// Combines two randomly selected organisms genes into a new one.
-void GeneticAlgorithm::recombineGenes(const MovieRater** organisms, const int length, const double totalScore, double* outGenes) const
+void GeneticAlgorithm::recombineGenes(MovieRater** organisms, const int length, const double totalScore, double* outGenes) const
 {
 	double randy = ((float)rand() / (float)RAND_MAX) * totalScore;
 	double accumulation = 0;
@@ -71,14 +72,14 @@ void GeneticAlgorithm::recombineGenes(const MovieRater** organisms, const int le
 	// select first organism
 	for (int i = 0; i < length; ++i)
 	{
-		if ((totalScore - organisms[i]->ErrorRate + accumulation) <= randy)
+		if ((((totalScore - organisms[i]->ErrorRate) / 2) + accumulation) >= randy)
 		{
 			// select this one
 			organisms[i]->getNeuralNetwork()->copyWeights(genes1);
 			break;
 		}
 		// add score to accumulation
-		accumulation++;
+		accumulation += ((totalScore - organisms[i]->ErrorRate) / 2);
 	}
 
 	// new randy
@@ -88,14 +89,14 @@ void GeneticAlgorithm::recombineGenes(const MovieRater** organisms, const int le
 	// select second organism
 	for (int i = 0; i < length; ++i)
 	{
-		if ((totalScore - organisms[i]->ErrorRate + accumulation) <= randy)
+		if ((((totalScore - organisms[i]->ErrorRate) / 2) + accumulation) >= randy)
 		{
 			// select this one
 			organisms[i]->getNeuralNetwork()->copyWeights(genes2);
 			break;
 		}
 		// add score to accumulation
-		accumulation++;
+		accumulation += ((totalScore - organisms[i]->ErrorRate) / 2);
 	}
 
 	// recombine and mutate

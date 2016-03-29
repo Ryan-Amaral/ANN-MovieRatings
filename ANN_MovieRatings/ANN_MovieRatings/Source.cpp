@@ -5,6 +5,13 @@
 //  Created On: March 26, 2016
 
 #include "Movie.h"
+#include "MovieRater.h"
+#include "GeneticAlgorithm.h"
+#include <stdio.h>
+#include <iostream>
+#include <conio.h>
+#include <ctype.h>
+#include <regex>
 
 using namespace std;
 
@@ -14,8 +21,55 @@ Movie** trainingMovies = new Movie*[trainingMoviesLength];
 int testingMoviesLength = 5; // amount of movies
 Movie** testingMovies = new Movie*[testingMoviesLength];
 
+/// Checks if input is an int up to nine digits and is between min and max, inclusive on both.
+bool isValidInt(string input, int min, int max)
+{
+	string strRegex = "\\d{1,9}";
 
-void CreateMovies()
+	if (regex_match(input, regex(strRegex)))
+	{
+		// return true if number is in range
+		int newInt = stoi(input, nullptr);
+		if (newInt >= min && newInt <= max)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/// Checks if input is a double up to five digits before and after decimal and is between min and max, inclusive on both.
+bool isValidDouble(string input, double min, double max)
+{
+	string strRegex = "\\d{0,5}\\.?\\d{0,5}";
+
+	if (regex_match(input, regex(strRegex)))
+	{
+		// return true if number is in range
+		double newDouble = stod(input, nullptr);
+		if (newDouble >= min && newDouble <= max)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void createMovies()
 {
 	// I am making sci-fi all highly rated so we can judge results easier
 	trainingMovies[0] = new Movie(
@@ -111,9 +165,9 @@ void CreateMovies()
 		//crt  anime  3danim anim   music  sport  bio    doc    parod  rating
 		false, false, false, false, false, false, false, false, true, 1.0);
 	testingMovies[3] = new Movie(
-		"Musical",
+		"Sci-Fi Musical",
 		//ac cm   fm   nr   hr   rm   wr   ad   cr   dr   ft   hs   ms   sc   th   ws
-		0.6, 0.6, 0.6, 0.2, 0.1, 1.0, 0.5, 0.1, 0.7, 0.7, 0.2, 0.8, 0.7, 0.6, 0.3, 0.2,
+		0.6, 0.6, 0.6, 0.2, 0.1, 1.0, 0.5, 0.1, 0.7, 0.7, 0.2, 0.8, 0.7, 1.0, 0.3, 0.2,
 		//crt  anime  3danim anim   music  sport  bio    doc    parod  rating
 		false, false, false, false, true, false, false, false, false, 1.0);
 	testingMovies[4] = new Movie(
@@ -126,15 +180,231 @@ void CreateMovies()
 
 int main()
 {
+	bool isValid = false; // flag for input
+	string strInput; // reusable string for input
+
+	bool isBasic; // determines how many attributes of movie to use
+	int hiddenLayers; // the amount of hidden layers
+	int* hiddenLayerTopologies; // the amount of nodes per hidden layer
+	int generations; // the amount of generations to run the program
+	int organismsPerGen; // the amount of neural nets to run per generation
+	double mutationProb; // the likelyhood of a mutation in the genetic algorithm
+	double learningRate; // how much the mution changes a gene
+
+	MovieRater** movieRaters; // the array of movie raters
+
+	createMovies();
+
 	// ask for basic or not
+	do
+	{
+		cout << "Do you want to use only basic criteria? (y/n)" << endl;
+		getline(cin, strInput);
+		if (tolower(strInput[0]) == 'y')
+		{
+			isValid = true;
+			isBasic = true;
+		}
+		else if (tolower(strInput[0]) == 'n')
+		{
+			isValid = true;
+			isBasic = false;
+		}
+		else
+		{
+			isValid = false;
+		}
+	} while (!isValid);
+
+	// ask for hidden layers
+	do
+	{
+		cout << "How many hidden layers do you want? (0 - 9)" << endl;
+		getline(cin, strInput);
+		if (isValidInt(strInput, 0, 9))
+		{
+			isValid = true;
+			hiddenLayers = stoi(strInput, nullptr);
+		}
+		else
+		{
+			isValid = false;
+		}
+
+	} while (!isValid);
 
 	// ask for topology of hidden layers
+	hiddenLayerTopologies = new int[hiddenLayers];
+	for (int hl = 0; hl < hiddenLayers; ++hl)
+	{
+		cout << "How many nodes do you want in hidden layer " << (hl + 1) << "? (1 - 100)" << endl;
+		getline(cin, strInput);
+		if (isValidInt(strInput, 1, 100))
+		{
+			isValid = true;
+			hiddenLayerTopologies[hl] = stoi(strInput, nullptr);
+		}
+		else
+		{
+			isValid = false;
+			--hl;
+		}
+	}
 
 	// ask for generations
+	do
+	{
+		cout << "How many generations do you want to run the genetic algorithm for? (1 - 1,000,000)" << endl;
+		getline(cin, strInput);
+		if (isValidInt(strInput, 1, 1000000))
+		{
+			isValid = true;
+			generations = stoi(strInput, nullptr);
+		}
+		else
+		{
+			isValid = false;
+		}
+	} while (!isValid);
 
 	// ask for organisms per generation
+	do
+	{
+		cout << "How many organisms do you want per generation? (1 - 5,000)" << endl;
+		getline(cin, strInput);
+		if (isValidInt(strInput, 1, 5000))
+		{
+			isValid = true;
+			organismsPerGen = stoi(strInput, nullptr);
+		}
+		else
+		{
+			isValid = false;
+		}
+	} while (!isValid);
 
 	// ask for mutation probability
+	do
+	{
+		cout << "What mutation probability do you want? (0.0 - 1.0)" << endl;
+		getline(cin, strInput);
+		if (isValidDouble(strInput, 0.0, 1.0))
+		{
+			isValid = true;
+			mutationProb = stod(strInput, nullptr);
+		}
+		else
+		{
+			isValid = false;
+		}
+	} while (!isValid);
 
 	// ask for learning rate
+	do
+	{
+		cout << "What learning rate do you want? (0.00001 - 5.0)" << endl;
+		getline(cin, strInput);
+		if (isValidDouble(strInput, 0.00001, 5.0))
+		{
+			isValid = true;
+			learningRate = stod(strInput, nullptr);
+		}
+		else
+		{
+			isValid = false;
+		}
+	} while (!isValid);
+
+	// create the movie raters
+	movieRaters = new MovieRater*[organismsPerGen];
+	int netLayers = hiddenLayers + 2;
+	int* netTopology = new int[netLayers];
+
+	// get the full net topology
+	netTopology[0] = (isBasic) ?
+		MovieRater::BASIC_CRITERIA_AMOUNT : MovieRater::COMPLEX_CRITERIA_AMOUNT;
+	for (int layer = 1; layer < netLayers - 1; ++layer)
+	{
+		netTopology[layer] = hiddenLayerTopologies[layer - 1];
+	}
+	netTopology[netLayers - 1] = 1;
+
+	srand(time(NULL));
+	// initialize movieRaters
+	for (int mr = 0; mr < organismsPerGen; ++mr)
+	{
+		movieRaters[mr] = new MovieRater(netLayers, netTopology, isBasic);
+	}
+
+	double curRating;
+	double curError;
+	double bestScore = 99999;
+	int bestScoreAchieved = 0; // the generation the best score was achieved
+
+	double** newGenes = new double*[organismsPerGen]; // using bio lingo for genes
+	// set lengths
+	for (int i = 0; i < organismsPerGen; ++i)
+	{
+		newGenes[i] = new double[NeuralNetwork::WeightLength];
+	}
+
+	double totalScore;
+
+	GeneticAlgorithm* geneticAlgorithm = new GeneticAlgorithm(mutationProb, learningRate);
+
+	cout << endl << "+++++ START OF EVOLUTION! +++++" << endl << endl << endl;
+
+	// run the sim
+	for (int generation = 0; generation < generations; ++generation)
+	{
+		cout << "========== GENERATION " << generation << " ==========" << endl << endl;
+
+		// asses each movie rater on all movies
+		for (int curRater = 0; curRater < organismsPerGen; ++curRater)
+		{
+			//cout << "----- Movie Rater " << curRater << " -----" << endl;
+			for (int curMovie = 0; curMovie < trainingMoviesLength; ++curMovie)
+			{
+				curRating = movieRaters[curRater]->rateMovie(trainingMovies[curMovie]);
+				curError = abs(curRating - trainingMovies[curMovie]->Rating);
+				/*cout << "-- Movie: " << trainingMovies[curMovie]->Name << " --" << endl
+					<< "Actual Rating: " << trainingMovies[curMovie]->Rating * 5 << endl
+					<< "Guessed Rating: " << curRating * 5 << endl
+					<< "Error Rate: " << curError * 5 << endl;*/
+
+				// add to raters error rate
+				movieRaters[curRater]->ErrorRate += (curError * 5);
+			}
+
+			//cout << endl << "Total Error: " << movieRaters[curRater]->ErrorRate << endl << endl;
+		}
+
+		// sort by error ascending
+		geneticAlgorithm->sortOrganismsByScore(movieRaters, organismsPerGen);
+
+		cout << "Lowest Error this Generation: " << movieRaters[0]->ErrorRate << endl;
+		// see if first is best
+		if (movieRaters[0]->ErrorRate < bestScore)
+		{
+			bestScore = movieRaters[0]->ErrorRate;
+			bestScoreAchieved = generation;
+		}
+		cout << "All time lowest Error: " << bestScore << ", Achieved in Generation " << bestScoreAchieved << "." << endl << endl;
+
+		totalScore = geneticAlgorithm->sumScores(movieRaters, organismsPerGen);
+		for (int i = 0; i < organismsPerGen; ++i)
+		{
+			geneticAlgorithm->recombineGenes(movieRaters, organismsPerGen, totalScore, newGenes[i]);
+		}
+
+		// set all errors to 0 and resuply genes/weights
+		for (int curRater = 0; curRater < organismsPerGen; ++curRater)
+		{
+			movieRaters[curRater]->ErrorRate = 0;
+			movieRaters[curRater]->getNeuralNetwork()->setWeights(newGenes[curRater]);
+		}
+	}
+
+	cout << endl << endl << "Press any key to quit.";
+	_getch();
 }
