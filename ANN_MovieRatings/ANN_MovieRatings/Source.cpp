@@ -336,6 +336,9 @@ int main()
 		movieRaters[mr] = new MovieRater(netLayers, netTopology, isBasic);
 	}
 
+	MovieRater* bestMovieRater = new MovieRater(netLayers, netTopology, isBasic);
+	double* bestGenes = new double[NeuralNetwork::WeightLength];
+
 	double curRating;
 	double curError;
 	double bestScore = 99999;
@@ -388,6 +391,9 @@ int main()
 		{
 			bestScore = movieRaters[0]->ErrorRate;
 			bestScoreAchieved = generation;
+
+			// set best movie rater's neural net
+			movieRaters[0]->getNeuralNetwork()->copyWeights(bestGenes);
 		}
 		cout << "All time lowest Error: " << bestScore << ", Achieved in Generation " << bestScoreAchieved << "." << endl << endl;
 
@@ -403,6 +409,33 @@ int main()
 			movieRaters[curRater]->ErrorRate = 0;
 			movieRaters[curRater]->getNeuralNetwork()->setWeights(newGenes[curRater]);
 		}
+	}
+
+	cout << endl << "+++++ EVOLUTION COMPLETE! +++++" << endl << endl << endl;
+
+	// set weight/genes of best
+	bestMovieRater->getNeuralNetwork()->setWeights(bestGenes);
+
+	// show ratings on the movies and projected ratings
+	for (int i = 0; i < trainingMoviesLength; ++i)
+	{
+		curRating = bestMovieRater->rateMovie(trainingMovies[i]);
+		curError = abs(curRating - trainingMovies[i]->Rating);
+		cout << "-- Movie: " << trainingMovies[i]->Name << " --" << endl
+			<< "Actual Rating: " << trainingMovies[i]->Rating * 5 << endl
+			<< "Guessed Rating: " << curRating * 5 << endl
+			<< "Error Rate: " << curError * 5 << endl;
+	}
+
+	cout << endl << "+++++ Projected Ratings +++++" << endl;
+
+	// projected ratings
+	for (int i = 0; i < testingMoviesLength; ++i)
+	{
+		curRating = bestMovieRater->rateMovie(testingMovies[i]);
+		curError = abs(curRating - testingMovies[i]->Rating);
+		cout << "-- Movie: " << testingMovies[i]->Name << " --" << endl
+			<< "Guessed Rating: " << curRating * 5 << endl;
 	}
 
 	cout << endl << endl << "Press any key to quit.";
