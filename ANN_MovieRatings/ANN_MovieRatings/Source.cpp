@@ -256,7 +256,7 @@ int main()
 	{
 		cout << "How many generations do you want to run the genetic algorithm for? (1 - 1,000,000)" << endl;
 		getline(cin, strInput);
-		if (isValidInt(strInput, 1, 1000000))
+		if (isValidInt(strInput, 1, 100000))
 		{
 			isValid = true;
 			generations = stoi(strInput, nullptr);
@@ -302,9 +302,9 @@ int main()
 	// ask for learning rate
 	do
 	{
-		cout << "What learning rate do you want? (0.00001 - 5.0)" << endl;
+		cout << "What learning rate do you want? (1.0 - 100.0)" << endl;
 		getline(cin, strInput);
-		if (isValidDouble(strInput, 0.00001, 5.0))
+		if (isValidDouble(strInput, 1.0, 100.0))
 		{
 			isValid = true;
 			learningRate = stod(strInput, nullptr);

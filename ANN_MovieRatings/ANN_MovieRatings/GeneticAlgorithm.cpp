@@ -63,7 +63,7 @@ double GeneticAlgorithm::sumScores(MovieRater** organisms, const int length) con
 /// Combines two randomly selected organisms genes into a new one.
 void GeneticAlgorithm::recombineGenes(MovieRater** organisms, const int length, const double totalScore, double* outGenes) const
 {
-	double randy = ((float)rand() / (float)RAND_MAX) * totalScore;
+	double randy = ((double)rand() / (double)RAND_MAX) * totalScore;
 	double accumulation = 0;
 
 	double* genes1 = new double[NeuralNetwork::WeightLength];
@@ -83,7 +83,7 @@ void GeneticAlgorithm::recombineGenes(MovieRater** organisms, const int length, 
 	}
 
 	// new randy
-	randy = ((float)rand() / (float)RAND_MAX) * totalScore;
+	randy = ((double)rand() / (double)RAND_MAX) * totalScore;
 	accumulation = 0;
 
 	// select second organism
@@ -107,11 +107,11 @@ void GeneticAlgorithm::recombineGenes(MovieRater** organisms, const int length, 
 				genes1[gene] : genes2[gene];
 
 		// mutate if can
-		if (((float)rand() / (float)RAND_MAX) <= _mutationProb)
+		if (((double)rand() / (double)RAND_MAX) <= _mutationProb)
 		{
 			// plus or minus learning rate
 			outGenes[gene] += (rand() % 2 == 0) ? 
-				_learningRate : -_learningRate;
+				((double)rand() / (double)RAND_MAX) * _learningRate : ((double)rand() / (double)RAND_MAX) * -_learningRate;
 		}
 	}
 }
