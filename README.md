@@ -10,4 +10,4 @@ When the program is ran, the user can put in certain values for the neural netwo
 - 0.1 mutation probability.
 - 50 learning rate. (any value seems to work, but 50 seemed more consistent to me)
 
-This program rates movies based on stats like if it is animated, and how well fit into a genre it it. It does not take into account things like quality and actors. It can get very accurate to the training set, getting as close as 0.3 for me. The error rate is how far off each movie rater is to rating the movies, 0 is the best.
+This program rates movies based on stats like if it is animated, and how well it fits into a genre. It does not take into account things like quality and actors. It can get very accurate to the training set, getting as close as 0.3 for me. The error rate is how far off each movie rater is to rating the movies, 0 is the best.
