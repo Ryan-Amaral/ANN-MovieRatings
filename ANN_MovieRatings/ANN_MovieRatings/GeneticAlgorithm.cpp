@@ -114,4 +114,7 @@ void GeneticAlgorithm::recombineGenes(MovieRater** organisms, const int length, 
 				((double)rand() / (double)RAND_MAX) * _learningRate : ((double)rand() / (double)RAND_MAX) * -_learningRate;
 		}
 	}
+
+	delete[] genes1;
+	delete[] genes2;
 }

@@ -34,6 +34,8 @@ MovieRater::~MovieRater()
 	{
 		delete _neuralNet;
 	}
+
+	delete[] _movieCriteria;
 }
 
 /// Gets a pointer to this objects neural net.
