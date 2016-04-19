@@ -256,7 +256,7 @@ int main()
 	{
 		cout << "How many generations do you want to run the genetic algorithm for? (1 - 1,000,000)" << endl;
 		getline(cin, strInput);
-		if (isValidInt(strInput, 1, 100000))
+		if (isValidInt(strInput, 1, 1000000))
 		{
 			isValid = true;
 			generations = stoi(strInput, nullptr);
@@ -424,7 +424,7 @@ int main()
 		cout << "-- Movie: " << trainingMovies[i]->Name << " --" << endl
 			<< "Actual Rating: " << trainingMovies[i]->Rating * 5 << endl
 			<< "Guessed Rating: " << curRating * 5 << endl
-			<< "Error Rate: " << curError * 5 << endl;
+			<< "Error Rate: " << curError * 5 << endl << endl;
 	}
 
 	cout << endl << "+++++ Projected Ratings +++++" << endl;
@@ -435,7 +435,7 @@ int main()
 		curRating = bestMovieRater->rateMovie(testingMovies[i]);
 		curError = abs(curRating - testingMovies[i]->Rating);
 		cout << "-- Movie: " << testingMovies[i]->Name << " --" << endl
-			<< "Guessed Rating: " << curRating * 5 << endl;
+			<< "Guessed Rating: " << curRating * 5 << endl << endl;
 	}
 
 	cout << endl << endl << "Press any key to quit.";
