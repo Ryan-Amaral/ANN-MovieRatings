@@ -1,4 +1,6 @@
 # ANN-MovieRatings
+## WARNING: I made this project back before I knew practically anything about Machine Learning, it was my first dive in. The ANN and GA implementations I think are good and perhaps worthwhile, but the actual experiment in this project is a bit... ridiculous. At the very least the project can show the general workflow of how an ANN and GA works, but not so much a real ML project.
+
 A c++ project using an ANN and Genetic Algorithm to predict what a user will rate a movie.
 
 When the program is ran, the user can put in certain values for the neural network and genetic algorithm. A good configuration that I found is:
